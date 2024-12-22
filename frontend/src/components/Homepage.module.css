@@ -1,0 +1,82 @@
+/* Overall page layout */
+*{
+    padding: 0;
+    margin: 0;
+}
+.homepage {
+    font-family: 'Arial', sans-serif;
+    background-color: #cce4fc;
+    color: #014791;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Navbar styles */
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    background-color: #cce4fc;
+  }
+  
+  .logo img{
+    height: 6rem;
+  }
+
+  
+  .navLinks {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .navLinks a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+  }
+  
+  /* Hero section */
+  .hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 50px;
+    padding-bottom: 100px;
+  }
+  
+  .heroText h1 {
+    font-size: 2.5rem;
+    color: #333;
+  }
+  
+  .heroText p {
+    font-size: 18px;
+    margin: 20px 0;
+  }
+  
+  .signUpButton {
+    padding: 15px 30px;
+    background-color: #014791;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.3s ease;
+    border-radius: 1.125rem;
+    margin-left: 2rem;
+  }
+  
+  .signUpButton:hover {
+    background-color: #013a75;
+  }
+  
+  .heroImage img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  

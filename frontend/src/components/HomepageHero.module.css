@@ -5,24 +5,12 @@
   box-sizing: border-box;
 }
 
-.homepage {
-  font-family: 'Arial', sans-serif;
-  background-color: #cce4fc;
-  color: #014791;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-bottom-right-radius: 10rem;
-}
-
 /* Navbar styles */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%; /* Make navbar stretch full width */
+  width: 100%; 
   padding: 20px 50px;
   padding-left: 64px;
   padding-bottom: 0;
@@ -30,7 +18,7 @@
 }
 
 .logo img {
-  height: 5rem; /* Reduced the height for better size balance */
+  height: 5rem; 
 }
 
 .navLinks {
@@ -47,7 +35,7 @@
 }
 
 .navLinks a:hover {
-  color: #000000; /* Color change on hover */
+  color: #000000  ; 
 }
 
 /* Hero section */
@@ -57,8 +45,8 @@
   padding: 0;
   padding-top: 0px;
   padding-bottom: 64px;
-  width: 100%; /* Ensure hero section stretches full width */
-  max-width: 1200px; /* Restrict content width */
+  width: 100%; 
+  max-width: 1200px; 
 }
 
 .heroText{
@@ -86,7 +74,7 @@
   font-size: 18px;
   transition: background-color 0.3s ease;
   border-radius: 1.125rem;
-  margin-top: 20px; /* Added margin for spacing */
+  margin-top: 20px; 
   min-height: 68px;
 }
 
@@ -95,8 +83,6 @@
 }
 
 .heroImage img {
-  /* width: 80%; Adjusted image size for better balance */
-  /* max-width: 500px; Set max width */
   height: 433px;
   padding-left: 100px;
   min-width: 500px;

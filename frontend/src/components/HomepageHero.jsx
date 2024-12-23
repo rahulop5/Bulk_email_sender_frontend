@@ -1,8 +1,8 @@
-import classes from "./Homepage.module.css";
+import classes from "./HomepageHero.module.css";
 
-function Homepage() {
+function HomepageHero() {
     return (
-        <div className={classes.homepage}>
+        <>
             {/* Navbar */}
             <nav className={classes.navbar}>
                 <div className={classes.logo}><img src="./src/assets/Logo.png" alt="Logo" /></div>
@@ -24,8 +24,10 @@ function Homepage() {
                     <img src="./src/assets/hero-img-removebg.png" alt="Email Campaign Screenshot" />
                 </div>
             </section>
-        </div>
+
+            {/* Features Section */}
+        </>
     );
 }
 
-export default Homepage;
+export default HomepageHero;

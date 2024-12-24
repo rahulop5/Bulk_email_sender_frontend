@@ -19,6 +19,40 @@
   max-width: 1200px;
 }
 
+/* Animations */
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Add animation classes */
+.fadeInLeft {
+  opacity: 0;
+  animation: fadeInLeft 3s forwards; /* 1s duration */
+}
+
+.fadeInRight {
+  opacity: 0;
+  animation: fadeInRight 3s forwards; /* 1s duration */
+}
+
 /* Heading */
 .heading {
   font-size: 2.5rem;
@@ -56,51 +90,21 @@
   color: #5c5c5c;
 }
 
-/* Feature 1 */
-.featureItem:nth-child(1) {
-  border: 3px solid #3b3585;
-}
-.featureItem:nth-child(1) h3 {
-  color: #3b3585;
-}
+/* Color theming for items */
+.featureItem:nth-child(1) { border: 3px solid #3b3585; }
+.featureItem:nth-child(1) h3 { color: #3b3585; }
 
-/* Feature 2 */
-.featureItem:nth-child(2) {
-  border: 3px solid #bc4f2d;
-}
-.featureItem:nth-child(2) h3 {
-  color: #bc4f2d;
-}
+.featureItem:nth-child(2) { border: 3px solid #bc4f2d; }
+.featureItem:nth-child(2) h3 { color: #bc4f2d; }
 
-/* Feature 3 */
-.featureItem:nth-child(3) {
-  border: 3px solid #b22557;
-}
-.featureItem:nth-child(3) h3 {
-  color: #b22557;
-}
+.featureItem:nth-child(3) { border: 3px solid #b22557; }
+.featureItem:nth-child(3) h3 { color: #b22557; }
 
-/* Feature 4 */
-.featureItem:nth-child(4) {
-  border: 3px solid #116b6b;
-}
-.featureItem:nth-child(4) h3 {
-  color: #116b6b;
-}
+.featureItem:nth-child(4) { border: 3px solid #116b6b; }
+.featureItem:nth-child(4) h3 { color: #116b6b; }
 
-/* Feature 5 */
-.featureItem:nth-child(5) {
-  border: 3px solid #226099;
-}
-.featureItem:nth-child(5) h3 {
-  color: #226099;
-}
+.featureItem:nth-child(5) { border: 3px solid #226099; }
+.featureItem:nth-child(5) h3 { color: #226099; }
 
-.featureItem:nth-child(6) {
-  border: 3px solid #7a7a33;
-}
-.featureItem:nth-child(6) h3 {
-  color: #7a7a33;
-}
-
-/* Center the two items in the second row */
+.featureItem:nth-child(6) { border: 3px solid #7a7a33; }
+.featureItem:nth-child(6) h3 { color: #7a7a33; }

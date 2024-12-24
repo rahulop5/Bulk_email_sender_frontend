@@ -1,12 +1,36 @@
+import { useEffect } from "react";
 import classes from "./HomepageFeatures.module.css";
 
 function HomepageFeatures() {
+  useEffect(() => {
+    const featuresSection = document.querySelector(`.${classes.featuresSection}`);
+    const featureItems = document.querySelectorAll(`.${classes.featureItem}`);
+
+    const handleScroll = () => {
+      const sectionTop = featuresSection.getBoundingClientRect().top;
+      const triggerPoint = window.innerHeight * 0.8; // Trigger when 80% of the viewport is visible
+
+      if (sectionTop < triggerPoint) {
+        featureItems.forEach((item, index) => {
+          if (index < 3) {
+            item.classList.add(classes.fadeInLeft); // First row fades in from left
+          } else {
+            item.classList.add(classes.fadeInRight); // Second row fades in from right
+          }
+        });
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    // Cleanup the event listener
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <section className={classes.featuresSection}>
-      {/* Section Heading */}
       <h2 className={classes.heading}>Unlock the Full Potential of Email Marketing</h2>
 
-      {/* Feature Items */}
       <div className={classes.features}>
         <div className={classes.featureItem}>
           <img src="./src/assets/emails.png" alt="Personalized Templates" />
@@ -38,7 +62,6 @@ function HomepageFeatures() {
           <h3>Scheduled Email Campaigns</h3>
           <p>Plan and schedule your email campaigns in advance to reach recipients at the perfect time.</p>
         </div>
-
       </div>
     </section>
   );

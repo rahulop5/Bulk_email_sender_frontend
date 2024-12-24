@@ -1,0 +1,30 @@
+.footer {
+    background-color: #cce4fc; /* Same background as the hero section */
+    padding: 60px 20px;
+    text-align: center;
+    border-top-left-radius: 10rem;
+    border-top-right-radius: 10rem;
+}
+
+.footer h2 {
+    font-size: 2.5rem;
+    color: #333; /* Same color as used in the hero button */
+    margin-bottom: 50px;
+    font-weight: bold;
+}
+
+.getStartedButton {
+    background-color: #014791; /* Same color as the hero button */
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    min-height: 68px;
+}
+
+.getStartedButton:hover {
+    background-color: #013670; /* Slightly darker blue on hover */
+}

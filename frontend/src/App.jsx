@@ -2,6 +2,7 @@ import HomepageFeatures from "./components/HomepageFeatures";
 import HomepageHero from "./components/HomepageHero";
 import classes from "./App.module.css";
 import HomepageHIW from "./components/HomepageHIW";
+import HomepageFooter from "./components/HomepageFooter";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <HomepageFeatures />
       </div>
       <HomepageHIW />
+      <HomepageFooter />
     </>
   );
 }

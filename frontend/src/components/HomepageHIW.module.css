@@ -1,0 +1,161 @@
+/* Section styling */
+.hiwSection {
+    padding: 60px 0;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+}
+
+.heading {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 40px;
+    font-weight: bold;
+}
+
+/* General step layout */
+.step {
+    display: flex;
+    align-items: center;
+    margin-bottom: 80px;
+    max-width: 100%;
+    justify-content: space-between;
+    padding: 0 20px;
+    opacity: 0; /* Initially hide steps */
+    transform: translateX(100px); /* Set translation to hide off-screen */
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out; /* Smooth transition */
+}
+
+/* Animation classes */
+.step.visible {
+    opacity: 1; /* Make visible when in view */
+    transform: translateX(0); /* Reset the translation */
+}
+
+/* Alternating steps */
+.leftStep .circleImage {
+    order: 1;
+}
+.leftStep .stepContent {
+    order: 2;
+    text-align: left;
+    margin-left: 20px;
+}
+
+.rightStep .circleImage {
+    order: 2;
+}
+.rightStep .stepContent {
+    order: 1;
+    text-align: right;
+    margin-right: 20px;
+    margin-left: 0;
+}
+
+/* Image styling */
+.circleImage {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 5px solid #014791;
+    background-color: #cce4fc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.circleImage img {
+    /* width: 150%; */
+    height: 80%;
+}
+
+/* Step content */
+.stepContent {
+    flex: 1;
+    padding: 20px;
+    border-radius: 25px;
+    font-size: 1.2rem;
+    height: 10rem;
+}
+
+.rightStep .stepContent {
+    background: linear-gradient(to left, #cce4fc 0%, white 100%);
+}
+
+.stepContent h3 {
+    font-size: 1.75rem;
+    color: #485b5c;
+    margin-bottom: 10px;
+}
+
+.stepContent p {
+    font-size: 1.1rem;
+    color: #5c5c5c;
+    width: 80%;
+}
+
+/* Left-to-right animation */
+.leftStep {
+    transform: translateX(100px); /* Move in from the right initially */
+}
+
+/* Right-to-left animation */
+.rightStep {
+    transform: translateX(-100px); /* Move in from the left initially */
+}
+
+/* When visible, both move to the center */
+.step.visible {
+    opacity: 1;
+    transform: translateX(0); /* Bring into view */
+}
+
+/* #ACDDDE, #CAF1DE, #E1F8DC, #FEF8DD  */
+
+.step1 .circleImage {
+    background-color: #ACDDDE; /* Light background */
+    border: 5px solid #6EB4B5; /* Darker border color */
+}
+
+.step2 .circleImage {
+    background-color: #CAF1DE; /* Light background */
+    border: 5px solid #99D6B8; /* Darker border color */
+}
+
+.step2 .circleImage img{
+    height: 150%;
+}
+
+.step3 .circleImage {
+    background-color: #E1F8DC; /* Light background */
+    border: 5px solid #B2E5A6; /* Darker border color */
+}
+
+.step4 .circleImage {
+    background-color: #FEF8DD; /* Light background */
+    border: 5px solid #F1E49E; /* Darker border color */
+}
+
+.step1 .stepContent{
+    background: linear-gradient(to right, #ACDDDE 0%, white 100%);
+}
+
+.step2 .stepContent{
+    background: linear-gradient(to left, #CAF1DE 0%, white 100%);
+}
+
+.step3 .stepContent{
+    background: linear-gradient(to right, #E1F8DC 0%, white 100%);
+}
+
+.step4 .stepContent{
+    background: linear-gradient(to left, #FEF8DD 0%, white 100%);
+}
+
+.rightStep .stepContent p {
+    width: 80%; 
+    margin-left: auto; /* Add this to push the text leftward */
+    margin-right: 0; /* Ensure there's no margin on the right */
+    text-align: right; /* Optional: Ensure the text is left-aligned */
+}

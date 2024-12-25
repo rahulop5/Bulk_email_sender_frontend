@@ -149,18 +149,18 @@ function readfile() {
     });
 }
 
-app.post("/sendmail", upload.single('file'), async (req, res) => {
+app.post("/sendmail", upload.single('file'), async (req, res) => { 
     if(req.isAuthenticated()){
-        const { headers, results } = await readfile();
-        res.render('loggedin.ejs', {
-            name: req.user.displayName,
-            headers: headers // Send headers to frontend
+        const { headers, results } = await readfile(); // Get the CSV headers and content
+        console.log(headers);
+        res.json({
+            headers: headers // Send headers to the frontend as JSON
         });
-    }
-    else{
+    } else {
         res.redirect("/");
     }
 });
+
 
 app.get('/get-csv-fields', async (req, res) => {
     const { fields } = await readfile();

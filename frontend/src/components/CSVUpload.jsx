@@ -1,20 +1,22 @@
 import { useRef, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
 import classes from "./CSVUpload.module.css";
 
 function CSVUpload() {
   const fileholder = useRef();
-  const [fileName, setFileName] = useState(''); // State to store the file name
-  const [filePreview, setFilePreview] = useState(''); // State to store the CSV preview
-  const [user, setUser] = useState({name: "name", email: "email"}); // State to store user data (name and email)
+  const [fileName, setFileName] = useState('');
+  const [filePreview, setFilePreview] = useState('');
+  const [user, setUser] = useState({name: "name", email: "email"});
+  const navigate = useNavigate(); // Use navigate for routing
 
   // Fetch user info on component mount
   useEffect(() => {
     fetch("http://localhost:3000/user-info", {
-      credentials: 'include', // Ensure cookies are sent for session info
+      credentials: 'include',
     })
       .then(res => res.json())
       .then(data => {
-        setUser(data); // Set the user info (name and email)
+        setUser(data);
       })
       .catch(err => console.error(err));
   }, []);
@@ -27,16 +29,38 @@ function CSVUpload() {
   function fileSelectedHandler(event) {
     const file = event.target.files[0];
     if (file) {
-      setFileName(file.name); // Set the file name in state
+      setFileName(file.name);
 
-      // Create a FileReader object to read the CSV file
       const reader = new FileReader();
       reader.onload = function (e) {
         const content = e.target.result;
-        setFilePreview(content); // Set the preview content in state
+        setFilePreview(content);
       };
-      reader.readAsText(file); // Read the file as a text string
+      reader.readAsText(file);
     }
+  }
+
+  async function handleUpload(event) {
+    event.preventDefault();
+    
+    const file = fileholder.current.files[0];
+    if (!file) return; // If no file, do nothing
+
+    const formData = new FormData();
+    formData.append('file', file); // Append the file to formData
+
+    // Send the file to the backend /sendmail route
+    fetch("http://localhost:3000/sendmail", {
+      method: "POST",
+      body: formData,
+      credentials: 'include' // Ensure cookies are sent
+    })
+    .then(res => res.json())
+    .then(data => {
+      // After successful response, navigate to Sendemails component with headers
+      navigate('/send-emails', { state: { headers: data.headers } });
+    })
+    .catch(err => console.error(err));
   }
 
   function handleLogout() {
@@ -44,16 +68,15 @@ function CSVUpload() {
       credentials: 'include',
     })
       .then(() => {
-        window.location.href = "/"; // Redirect to the homepage after logout
+        window.location.href = "/";
       })
       .catch(err => console.error(err));
   }
 
   return (
     <div className={classes.container}>
-      <h2>Upload Your CSV</h2>  
+      <h2>Upload Your CSV</h2>
       
-      {/* Show user info */}
       {user && (
         <div className={classes.userInfo}>
           <p>Welcome, {user.name} ({user.email})</p>
@@ -61,7 +84,7 @@ function CSVUpload() {
         </div>
       )}
 
-      <form>
+      <form onSubmit={handleUpload}>
         <input 
           ref={fileholder} 
           type="file" 
@@ -70,15 +93,14 @@ function CSVUpload() {
         />
         <button onClick={filehandler}>Choose File</button>
         <br /><br />
-        {fileName && <p className={classes.fileName}>Selected File: {fileName}</p>} {/* Display file name */}
+        {fileName && <p className={classes.fileName}>Selected File: {fileName}</p>}
         <button type="submit">Upload</button>
       </form>
       
-      {/* Display a preview of the CSV contents */}
       {filePreview && (
         <div className={classes.preview}>
           <h3>CSV Preview:</h3>
-          <pre>{filePreview}</pre> {/* Show the content in a <pre> tag */}
+          <pre>{filePreview}</pre>
         </div>
       )}
     </div>

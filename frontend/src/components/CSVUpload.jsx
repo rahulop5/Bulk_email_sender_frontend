@@ -1,10 +1,23 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import classes from "./CSVUpload.module.css";
 
 function CSVUpload() {
   const fileholder = useRef();
   const [fileName, setFileName] = useState(''); // State to store the file name
   const [filePreview, setFilePreview] = useState(''); // State to store the CSV preview
+  const [user, setUser] = useState({name: "name", email: "email"}); // State to store user data (name and email)
+
+  // Fetch user info on component mount
+  useEffect(() => {
+    fetch("http://localhost:3000/user-info", {
+      credentials: 'include', // Ensure cookies are sent for session info
+    })
+      .then(res => res.json())
+      .then(data => {
+        setUser(data); // Set the user info (name and email)
+      })
+      .catch(err => console.error(err));
+  }, []);
 
   function filehandler(event) {
     event.preventDefault();
@@ -26,9 +39,28 @@ function CSVUpload() {
     }
   }
 
+  function handleLogout() {
+    fetch("http://localhost:3000/auth/google/logout", {
+      credentials: 'include',
+    })
+      .then(() => {
+        window.location.href = "/"; // Redirect to the homepage after logout
+      })
+      .catch(err => console.error(err));
+  }
+
   return (
     <div className={classes.container}>
       <h2>Upload Your CSV</h2>  
+      
+      {/* Show user info */}
+      {user && (
+        <div className={classes.userInfo}>
+          <p>Welcome, {user.name} ({user.email})</p>
+          <button onClick={handleLogout}>Logout</button>
+        </div>
+      )}
+
       <form>
         <input 
           ref={fileholder} 

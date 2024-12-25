@@ -201,8 +201,14 @@ app.get("/auth/google", passport.authenticate("google", { scope: ["profile", "em
 
 app.get("/auth/google/callback", passport.authenticate("google", {
     failureRedirect: "/",
-    successRedirect : "http://localhost:5173/upload-csv"
-}));
+    session: true
+}), (req, res) => {
+    // On successful authentication, redirect to frontend with user details
+    const userName = req.user.displayName;
+    const userEmail = req.user.emails[0].value;
+    res.redirect(`http://localhost:5173/upload-csv?name=${encodeURIComponent(userName)}&email=${encodeURIComponent(userEmail)}`);
+});
+
 
 app.get("/afterlogin", (req, res)=>{
     if (req.isAuthenticated()) {
@@ -222,6 +228,20 @@ app.get("/auth/google/logout", (req, res)=>{
         res.redirect("/");
     });
 });
+
+// Route to get the logged-in user's info
+app.get("/user-info", (req, res) => {
+    if (req.isAuthenticated()) {
+      const userInfo = {
+        name: req.user.displayName,
+        email: req.user.emails[0].value,
+      };
+      res.json(userInfo);
+    } else {
+      res.status(401).send("Unauthorized");
+    }
+  });
+  
 
 app.use(express.static("public"));
 app.get("/", (req, res)=>{

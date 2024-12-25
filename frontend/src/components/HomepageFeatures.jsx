@@ -60,7 +60,7 @@ function HomepageFeatures() {
         <div className={classes.featureItem}>
           <img src="./src/assets/clock.png" alt="Scheduled Email Campaigns" />
           <h3>Scheduled Email Campaigns</h3>
-          <p>Plan and schedule your email campaigns in advance to reach recipients at the perfect time.</p>
+          <p>Plan and schedule your email campaigns in advance to reach recipients at the perfect time.(Coming Soon..)</p>
         </div>
       </div>
     </section>

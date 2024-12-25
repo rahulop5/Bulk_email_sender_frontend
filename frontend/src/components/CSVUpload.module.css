@@ -1,0 +1,73 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 50px;
+  }
+  
+  h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #014791;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  
+  input[type="file"] {
+    display: none; /* Hidden to customize the file input */
+  }
+  
+  button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #014791;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #013366;
+  }
+  
+  button:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  .fileName {
+    font-size: 1rem;
+    color: #333;
+    margin-top: 10px;
+  }
+  
+  .preview {
+    margin-top: 20px;
+    text-align: left;
+    width: 80%;
+    max-height: 400px;
+    overflow-y: auto; /* Scrollable preview for large files */
+    background-color: #f9f9f9;
+    padding: 10px;
+    border: 1px solid #ccc;
+  }
+  
+  .preview h3 {
+    color: #014791;
+  }
+  
+  pre {
+    white-space: pre-wrap; /* Wrap lines for long CSV rows */
+    word-break: break-word;
+    font-size: 0.9rem;
+    color: #333;
+  }
+  

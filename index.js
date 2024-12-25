@@ -192,6 +192,7 @@ app.post("/sendmailtemplate", async (req, res) => {
             res.status(500).send("Error processing template.");
         }
     } else {
+        console.log("hello");
         res.redirect("/");
     }
 });

@@ -110,15 +110,13 @@ async function sendmail(req, res, data, template, subjectTemplate) {
                     raw: encodedMessage,
                 },
             });
-
             console.log(`Mail sent to ${person.email}`);
         }
-
-        res.send("Emails sent successfully!");
+        res.status(200).json({ message: "Emails sent successfully!" });
 
     } catch (error) {
         console.error("Error sending email:", error);
-        res.status(500).send("Error sending email.");
+        res.status(500).json({ error: "Error sending email." });
     }
 }
 //csv file handling
@@ -192,7 +190,6 @@ app.post("/sendmailtemplate", async (req, res) => {
             res.status(500).send("Error processing template.");
         }
     } else {
-        console.log("hello");
         res.redirect("/");
     }
 });

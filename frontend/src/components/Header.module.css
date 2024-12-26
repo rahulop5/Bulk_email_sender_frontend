@@ -1,0 +1,36 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; 
+    padding: 20px 50px;
+    padding-left: 64px;
+    padding-bottom: 0;
+    background-color: #cce4fc;
+  }
+  
+  .logo img {
+    height: 5rem; 
+  }
+  
+  .navLinks {
+    display: flex;
+    gap: 30px;
+  }
+  
+  .navLinks a {
+    text-decoration: none;
+    color: #014791;
+    font-weight: 500;
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+  }
+  
+  .navLinks a:hover {
+    color: #000000  ; 
+  }
+
+  .nothomepage{
+    border-bottom-right-radius: 3rem;
+    border-bottom-left-radius: 3rem;
+  }

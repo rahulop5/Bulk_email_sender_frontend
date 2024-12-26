@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
 import classes from "./CSVUpload.module.css";
+import Header from './Header';
 
 function CSVUpload() {
   const fileholder = useRef();
@@ -74,36 +75,39 @@ function CSVUpload() {
   }
 
   return (
-    <div className={classes.container}>
-      <h2>Upload Your CSV</h2>
-      
-      {user && (
-        <div className={classes.userInfo}>
-          <p>Welcome, {user.name} ({user.email})</p>
-          <button onClick={handleLogout}>Logout</button>
-        </div>
-      )}
+    <>
+      <Header ishomepage={false}/>
+      <div className={classes.container}>
+        <h2>Upload Your CSV</h2>
+        
+        {user && (
+          <div className={classes.userInfo}>
+            <p>Welcome, {user.name} ({user.email})</p>
+            <button onClick={handleLogout}>Logout</button>
+          </div>
+        )}
 
-      <form onSubmit={handleUpload}>
-        <input 
-          ref={fileholder} 
-          type="file" 
-          accept=".csv" 
-          onChange={fileSelectedHandler} 
-        />
-        <button onClick={filehandler}>Choose File</button>
-        <br /><br />
-        {fileName && <p className={classes.fileName}>Selected File: {fileName}</p>}
-        <button type="submit">Upload</button>
-      </form>
-      
-      {filePreview && (
-        <div className={classes.preview}>
-          <h3>CSV Preview:</h3>
-          <pre>{filePreview}</pre>
-        </div>
-      )}
-    </div>
+        <form onSubmit={handleUpload}>
+          <input 
+            ref={fileholder} 
+            type="file" 
+            accept=".csv" 
+            onChange={fileSelectedHandler} 
+            />
+          <button onClick={filehandler}>Choose File</button>
+          <br /><br />
+          {fileName && <p className={classes.fileName}>Selected File: {fileName}</p>}
+          <button type="submit">Upload</button>
+        </form>
+        
+        {filePreview && (
+          <div className={classes.preview}>
+            <h3>CSV Preview:</h3>
+            <pre>{filePreview}</pre>
+          </div>
+        )}
+      </div>
+    </>
   );
 }
 

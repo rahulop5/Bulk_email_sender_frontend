@@ -20,22 +20,6 @@
     text-transform: uppercase;
   }
   
-  /* .resultModal progress {
-    width: 100%;
-    height: 1.5rem;
-    margin: 0;
-    accent-color: #46cebe;
-  }
-  
-  .resultModal p {
-    margin: 0.5rem 0;
-    font-size: 1.2rem;
-  }
-  
-  .resultModal p strong {
-    color: #10655b;
-  } */
-  
   .resultModal form {
     text-align: right;
   }

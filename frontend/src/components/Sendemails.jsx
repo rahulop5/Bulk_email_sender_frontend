@@ -4,6 +4,7 @@ import classes from './Sendemails.module.css';
 import EmailssentModal from './EmailssentModal';
 import 'dialog-polyfill/dialog-polyfill.css';
 import dialogPolyfill from 'dialog-polyfill';
+import Header from './Header';
 
 function Sendemails() {
   const location = useLocation();
@@ -51,6 +52,7 @@ function Sendemails() {
 
   return (
     <>
+      <Header ishomepage={false}/>
       <EmailssentModal ref={dialog} />
       <div className={classes.container}>
         <h2 className={classes.title}>Customize Your Email Template</h2>

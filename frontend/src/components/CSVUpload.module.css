@@ -1,79 +1,118 @@
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 50px;
-  }
-  
-  h2 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-    color: #014791;
-  }
-  
-  form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-  }
-  
-  input[type="file"] {
-    display: none; /* Hidden to customize the file input */
-  }
-  
-  button {
-    margin: 10px;
-    padding: 10px 20px;
-    font-size: 1rem;
-    background-color: #014791;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #013366;
-  }
-  
-  button:focus {
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-  }
-  
-  .fileName {
-    font-size: 1rem;
-    color: #333;
-    margin-top: 10px;
-  }
-  
-  .preview {
-    margin-top: 20px;
-    text-align: left;
-    width: 80%;
-    max-height: 400px;
-    overflow-y: auto; /* Scrollable preview for large files */
-    background-color: #f9f9f9;
-    padding: 10px;
-    border: 1px solid #ccc;
-  }
-  
-  .preview h3 {
-    color: #014791;
-  }
-  
-  pre {
-    white-space: pre-wrap; /* Wrap lines for long CSV rows */
-    word-break: break-word;
-    font-size: 0.9rem;
-    color: #333;
-  }
+  max-width: 800px; /* Limit the width for a more compact look */
+  margin: 40px auto; /* Add margin to separate the container from the header */
+  padding: 50px;
+  background-color: #f0f8ff; /* Light background to contrast the components */
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  transition: all 0.3s ease; /* Smooth transition for hover effects */
+}
 
-  .userInfo {
-    margin-bottom: 20px;
-    font-size: 1.1rem;
-    color: #333;
-  }
-  
+.container:hover {
+  transform: translateY(-10px); /* Slight lift on hover */
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+}
+
+h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #014791;
+  text-align: center;
+  font-weight: bold;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+input[type="file"] {
+  display: none; /* Hidden to customize the file input */
+}
+
+button {
+  margin: 15px 0;
+  padding: 12px 25px;
+  font-size: 1.1rem;
+  background-color: #014791;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+button:hover {
+  background-color: #013366;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2); /* Shadow effect on hover */
+}
+
+button:focus {
+  outline: none;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+.fileName {
+  font-size: 1.1rem;
+  color: #014791;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.preview {
+  margin-top: 30px;
+  text-align: left;
+  width: 90%;
+  max-height: 400px;
+  overflow-y: auto;
+  background-color: #ffffff;
+  padding: 15px;
+  border: 2px solid #cce4fc; /* Light blue border */
+  border-radius: 8px;
+  box-shadow: inset 0 1px 6px rgba(0, 0, 0, 0.1); /* Inner shadow for depth */
+}
+
+.preview h3 {
+  color: #014791;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+pre {
+  white-space: pre-wrap; /* Wrap lines for long CSV rows */
+  word-break: break-word;
+  font-size: 1rem;
+  color: #333;
+  line-height: 1.5; /* Increase line spacing for readability */
+  background-color: #f7faff; /* Slight blue tint for preview background */
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.userInfo {
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+  color: #014791;
+  text-align: center;
+  font-weight: 500;
+}
+
+.userInfo p {
+  margin-bottom: 10px;
+}
+
+.userInfo button {
+  background-color: #ff5c5c;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.userInfo button:hover {
+  background-color: #ff1c1c;
+  transform: scale(1.05); /* Slight grow effect on hover */
+}

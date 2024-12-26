@@ -1,14 +1,24 @@
 import { useLocation } from 'react-router-dom';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import classes from './Sendemails.module.css';
 import EmailssentModal from './EmailssentModal';
+import 'dialog-polyfill/dialog-polyfill.css';
+import dialogPolyfill from 'dialog-polyfill';
 
 function Sendemails() {
   const location = useLocation();
   const { headers } = location.state || {}; // Access headers from state
   const [subject, setSubject] = useState('');
   const [template, setTemplate] = useState('');
-  const dialog=useRef();
+  const dialog = useRef();
+
+  useEffect(() => {
+    if (dialog.current) {
+      if (!dialog.current.showModal) {
+        dialogPolyfill.registerDialog(dialog.current);
+      }
+    }
+  }, []); // Ensure polyfill is applied after the component is mounted
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -29,8 +39,10 @@ function Sendemails() {
       }
       return res.json();
     })
-    .then((data) => {
-      alert(data.message); // Success message
+    .then(() => {
+      if (dialog.current) {
+        dialog.current.showModal();
+      }
     })
     .catch((err) => {
       alert(err.message); // Error message
@@ -39,6 +51,7 @@ function Sendemails() {
 
   return (
     <>
+      <EmailssentModal ref={dialog} />
       <div className={classes.container}>
         <h2 className={classes.title}>Customize Your Email Template</h2>
         {headers ? (
@@ -62,7 +75,7 @@ function Sendemails() {
                   onChange={(e) => setSubject(e.target.value)}
                   className={classes.inputField}
                   required
-                  />
+                />
               </label>
 
               <label className={classes.formLabel}>
@@ -75,7 +88,7 @@ function Sendemails() {
                   className={classes.textareaField}
                   placeholder="Write your email template using the above fields, e.g., 'Hello {{name}}, you scored {{marks}} marks.'"
                   required
-                  />
+                />
               </label>
 
               <button type="submit" className={classes.submitButton}>

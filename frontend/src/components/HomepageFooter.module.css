@@ -28,3 +28,47 @@
 .getStartedButton:hover {
     background-color: #013670; /* Slightly darker blue on hover */
 }
+
+/* .footer {
+    background-color: #cce4fc; 
+    padding: 60px 20px;
+    text-align: center;
+} */
+
+/* Mobile view */
+@media (max-width: 600px) {
+    .footer h2 {
+        font-size: 2rem; /* Smaller heading */
+    }
+
+    .getStartedButton {
+        padding: 12px 25px;
+        font-size: 16px;
+        min-height: 60px;
+    }
+}
+
+/* Tablet view */
+@media (max-width: 900px) {
+    .footer h2 {
+        font-size: 2.3rem;
+    }
+
+    .getStartedButton {
+        padding: 13px 28px;
+        font-size: 17px;
+        min-height: 64px;
+    }
+}
+
+/* Laptop view */
+@media (max-width: 1200px) {
+    .footer h2 {
+        font-size: 2.4rem;
+    }
+
+    .getStartedButton {
+        padding: 14px 30px;
+        font-size: 18px;
+    }
+}

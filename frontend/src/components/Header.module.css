@@ -34,3 +34,63 @@
     border-bottom-right-radius: 3rem;
     border-bottom-left-radius: 3rem;
   }
+
+/* Mobile view */
+@media (max-width: 600px) {
+    .navbar {
+        padding: 15px 20px;
+        flex-direction: column;
+        align-items: flex-start; /* Stack items vertically */
+    }
+
+    .logo img {
+        height: 4rem; /* Smaller logo */
+    }
+
+    .navLinks {
+        flex-direction: column;
+        gap: 20px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .navLinks a {
+        font-size: 1rem;
+    }
+}
+
+/* Tablet view */
+@media (max-width: 900px) {
+    .navbar {
+        padding: 20px 30px;
+        padding-left: 40px;
+    }
+
+    .logo img {
+        height: 4.5rem; 
+    }
+
+    .navLinks {
+        gap: 20px;
+    }
+
+    .navLinks a {
+        font-size: 1.05rem;
+    }
+}
+
+/* Laptop screens */
+@media (max-width: 1200px) {
+    .navbar {
+        padding: 20px 40px;
+        padding-left: 50px;
+    }
+
+    .logo img {
+        height: 4.75rem;
+    }
+
+    .navLinks {
+        gap: 25px;
+    }
+}

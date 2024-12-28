@@ -11,6 +11,7 @@ function Sendemails() {
   const { headers } = location.state || {}; // Access headers from state
   const [subject, setSubject] = useState('');
   const [template, setTemplate] = useState('');
+  const [emailsSent, setEmailsSent] = useState(null);  // New state for number of emails sent
   const dialog = useRef();
 
   useEffect(() => {
@@ -40,20 +41,21 @@ function Sendemails() {
       }
       return res.json();
     })
-    .then(() => {
+    .then((data) => {
+      setEmailsSent(data.emailsSent);  // Store the number of emails sent
       if (dialog.current) {
         dialog.current.showModal();
       }
     })
     .catch((err) => {
       alert(err.message); // Error message
-    });    
+    });
   };
 
   return (
     <>
       <Header ishomepage={false}/>
-      <EmailssentModal ref={dialog} />
+      <EmailssentModal ref={dialog} noofemails={emailsSent} />  {/* Pass emailsSent to modal */}
       <div className={classes.container}>
         <h2 className={classes.title}>Customize Your Email Template</h2>
         {headers ? (

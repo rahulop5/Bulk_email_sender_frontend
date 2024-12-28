@@ -54,6 +54,7 @@ passport.use("google", new GoogleStrategy({
 
 async function sendmail(req, res, data, template, subjectTemplate) {
     const { token, refreshToken } = req.user;
+    let emailCount = 0;  // Add this to count the number of emails sent
 
     try {
         // Create OAuth2 client
@@ -110,9 +111,11 @@ async function sendmail(req, res, data, template, subjectTemplate) {
                     raw: encodedMessage,
                 },
             });
+            emailCount++;  // Increment count after each successful send
             console.log(`Mail sent to ${person.email}`);
         }
-        res.status(200).json({ message: "Emails sent successfully!" });
+
+        return emailCount;  // Return the total number of emails sent
 
     } catch (error) {
         console.error("Error sending email:", error);
@@ -183,7 +186,8 @@ app.post("/sendmailtemplate", async (req, res) => {
             }
 
             // Send mail with personalized subject and content
-            await sendmail(req, res, results, template, subject);
+            const emailsSent = await sendmail(req, res, results, template, subject);
+            res.status(200).json({ message: "Emails sent successfully!", emailsSent });
 
         } catch (error) {
             console.error("Error processing template:", error);

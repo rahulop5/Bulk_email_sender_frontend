@@ -1,8 +1,9 @@
 import { forwardRef } from "react";
+import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import classes from "./EmailssentModal.module.css";
 
-const EmailssentModal = forwardRef((_, ref) => {
+const EmailssentModal = forwardRef(function EmailssentModal({noofemails}, ref) {
   const navigate = useNavigate();
 
   const handleClose = () => {
@@ -24,16 +25,16 @@ const EmailssentModal = forwardRef((_, ref) => {
         alert("Error during logout.");
       });
   };
-
-  return (
+  return createPortal(
     <dialog ref={ref} className={classes.resultModal}>
-      <h2>Emails Successfully Sent!!</h2>
+      <h2>{noofemails} Email{noofemails===1?"":"s"} Successfully Sent!!</h2>
       <form method="dialog">
         <button type="button" onClick={handleClose}>
           Close and Return
         </button>
       </form>
-    </dialog>
+    </dialog>, 
+    document.getElementById("modal")
   );
 });
 

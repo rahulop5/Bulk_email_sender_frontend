@@ -10,8 +10,9 @@ function Sendemails() {
   const location = useLocation();
   const { headers } = location.state || {}; // Access headers from state
   const [subject, setSubject] = useState('');
+  const [emailField, setEmailField] = useState(''); // Capture email field
   const [template, setTemplate] = useState('');
-  const [emailsSent, setEmailsSent] = useState(null);  // New state for number of emails sent
+  const [emailsSent, setEmailsSent] = useState(null); // New state for number of emails sent
   const dialog = useRef();
 
   useEffect(() => {
@@ -25,40 +26,44 @@ function Sendemails() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Post subject and template to backend
+    // Post subject, template, and emailField to backend
     fetch('http://localhost:3000/sendmailtemplate', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       credentials: 'include', // Send cookies for authentication
-      body: JSON.stringify({ subject, template }),
+      body: JSON.stringify({ subject, template, emailField }), // Send emailField too
     })
-    .then(async (res) => {
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || 'Error sending emails');
-      }
-      return res.json();
-    })
-    .then((data) => {
-      setEmailsSent(data.emailsSent);  // Store the number of emails sent
-      if (dialog.current) {
-        dialog.current.showModal();
-      }
-    })
-    .catch((err) => {
-      alert(err.message); // Error message
-    });
+      .then(async (res) => {
+        if (!res.ok) {
+          const data = await res.json();
+          throw new Error(data.error || 'Error sending emails');
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setEmailsSent(data.emailsSent); // Store the number of emails sent
+        if (dialog.current) {
+          dialog.current.showModal();
+        }
+        // Clear form fields after successful submission
+        setSubject('');
+        setEmailField('');
+        setTemplate('');
+      })
+      .catch((err) => {
+        alert(err.message); // Error message
+      });
   };
 
   return (
     <>
-      <Header ishomepage={false}/>
-      <EmailssentModal ref={dialog} noofemails={emailsSent} />  {/* Pass emailsSent to modal */}
+      <Header ishomepage={false} />
+      <EmailssentModal ref={dialog} noofemails={emailsSent} /> {/* Pass emailsSent to modal */}
       <div className={classes.container}>
         <h2 className={classes.title}>Customize Your Email Template</h2>
-        {headers ? (
+        {headers && headers.length > 0 ? (
           <div>
             <h3 className={classes.subTitle}>Available CSV Fields:</h3>
             <ul className={classes.fieldsList}>
@@ -77,6 +82,18 @@ function Sendemails() {
                   name="subject"
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
+                  className={classes.inputField}
+                  required
+                />
+              </label>
+
+              <label className={classes.formLabel}>
+                Email header name (CSV field for email address):
+                <input
+                  type="text"
+                  name="emailField"
+                  value={emailField}
+                  onChange={(e) => setEmailField(e.target.value)}
                   className={classes.inputField}
                   required
                 />

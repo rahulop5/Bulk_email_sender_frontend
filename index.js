@@ -57,12 +57,12 @@ passport.use("google", new GoogleStrategy({
     return done(null, profile);
 }));
 
-async function sendmail(req, res, data, template, subjectTemplate) {
+async function sendmail(req, res, data, template, subjectTemplate, emailField) {
     const { token, refreshToken } = req.user;
-    let emailCount = 0;  // Add this to count the number of emails sent
+    let emailCount = 0;
 
     try {
-        // Create OAuth2 client
+        // OAuth2 client setup
         const oAuth2Client = new google.auth.OAuth2(
             process.env.GOOGLE_CLIENT_ID,
             process.env.GOOGLE_CLIENT_SECRET,
@@ -75,28 +75,34 @@ async function sendmail(req, res, data, template, subjectTemplate) {
 
         const gmail = google.gmail({ version: "v1", auth: oAuth2Client });
 
-        // Map over each person and send personalized email
         for (let person of data) {
             let personalizedMessage = template;
             let personalizedSubject = subjectTemplate;
 
-            // Replace each header field with the corresponding value in the CSV row for body
+            // Replace each field in the template and subject with the corresponding CSV value
             for (let [key, value] of Object.entries(person)) {
                 const regex = new RegExp(`{{${key}}}`, 'g'); // Create a regex to match {{field}} format
                 personalizedMessage = personalizedMessage.replace(regex, value);
                 personalizedSubject = personalizedSubject.replace(regex, value);
             }
 
-            // If there are any placeholders left unreplaced (i.e., user entered wrong field)
+            // Check for unreplaced placeholders
             if (personalizedMessage.match(/{{.*?}}/g) || personalizedSubject.match(/{{.*?}}/g)) {
                 return res.status(400).send("Invalid fields in template or subject.");
             }
 
+            // Use the selected emailField to get the recipient email
+            const recipientEmail = person[emailField];  // Fetch email using the selected header
+            if (!recipientEmail) {
+                return res.status(400).send(`Missing email in row for ${emailField}`);
+            }
+
+            // Prepare the email message
             const email = [
                 "Content-Type: text/plain; charset=utf-8",
                 "MIME-Version: 1.0",
                 "Content-Transfer-Encoding: 7bit",
-                `to: ${person.email}`,  // Assuming the 'email' field exists in CSV
+                `to: ${recipientEmail}`,  // Use the dynamic email field
                 `subject: ${personalizedSubject}`,  // Personalized subject
                 "",
                 personalizedMessage,
@@ -109,24 +115,26 @@ async function sendmail(req, res, data, template, subjectTemplate) {
                 .replace(/\//g, "_")
                 .replace(/=+$/, "");
 
-            // Send the email using Gmail API
+            // Send the email via Gmail API
             await gmail.users.messages.send({
                 userId: "me",
                 requestBody: {
                     raw: encodedMessage,
                 },
             });
-            emailCount++;  // Increment count after each successful send
-            console.log(`Mail sent to ${person.email}`);
+
+            emailCount++;
+            console.log(`Mail sent to ${recipientEmail}`);
         }
 
-        return emailCount;  // Return the total number of emails sent
+        return emailCount;
 
     } catch (error) {
         console.error("Error sending email:", error);
         res.status(500).json({ error: "Error sending email." });
     }
 }
+
 //csv file handling
 
 const storage = multer.diskStorage({
@@ -176,9 +184,15 @@ app.get('/get-csv-fields', async (req, res) => {
 app.post("/sendmailtemplate", async (req, res) => {
     if (req.isAuthenticated()) {
         try {
-            const { headers, results } = await readfile();  // Assuming you return headers + data from readfile()
+            const { headers, results } = await readfile();  // Get headers and CSV data
             const template = req.body.template;
             const subject = req.body.subject;
+            const emailField = req.body.emailField;  // The user-selected field for email addresses
+
+            // Check if the selected email field exists in the headers
+            if (!headers.includes(emailField)) {
+                return res.status(400).send("Selected email field does not exist in the CSV.");
+            }
 
             // Validate if all fields in the subject and template exist in CSV headers
             const templateFields = template.match(/{{(.*?)}}/g) || [];
@@ -190,8 +204,8 @@ app.post("/sendmailtemplate", async (req, res) => {
                 return res.status(400).send(`Invalid fields: ${invalidFields.join(', ')}`);
             }
 
-            // Send mail with personalized subject and content
-            const emailsSent = await sendmail(req, res, results, template, subject);
+            // Pass the emailField to the sendmail function to use it for fetching email addresses
+            const emailsSent = await sendmail(req, res, results, template, subject, emailField);
             res.status(200).json({ message: "Emails sent successfully!", emailsSent });
 
         } catch (error) {
@@ -202,6 +216,7 @@ app.post("/sendmailtemplate", async (req, res) => {
         res.redirect("/");
     }
 });
+
 
 //auth
 app.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email", "https://www.googleapis.com/auth/gmail.send"], accessType: "offline" , prompt: "consent"}));

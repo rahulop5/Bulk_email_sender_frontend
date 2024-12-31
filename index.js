@@ -10,6 +10,11 @@ import csv from "csv-parser";
 import cors from "cors";
 
 const app=express();
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ error: "Internal Server Error" });
+});
+
 env.config();
 app.use(cors({
     //static link

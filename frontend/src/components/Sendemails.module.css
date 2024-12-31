@@ -108,6 +108,21 @@
   transform: translateY(0); /* Remove lift on click */
 }
 
+.fileNames ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 10px 0;
+}
+
+.fileNames li {
+  background-color: #e6f3ff;
+  padding: 5px 10px;
+  border-radius: 4px;
+  margin-bottom: 5px;
+  font-size: 16px;
+}
+
+
 @media (max-width: 600px) {
   .container {
     padding: 20px;

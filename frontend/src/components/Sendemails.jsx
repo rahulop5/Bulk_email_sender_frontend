@@ -8,13 +8,14 @@ import Header from './Header';
 
 function Sendemails() {
   const location = useLocation();
-  const { headers } = location.state || {}; // Access headers from state
+  const { headers } = location.state || {};
   const [subject, setSubject] = useState('');
-  const [emailField, setEmailField] = useState(''); // Capture email field
+  const [emailField, setEmailField] = useState('');
   const [template, setTemplate] = useState('');
-  const [cc, setCc] = useState(''); // Capture CC field
-  const [bcc, setBcc] = useState(''); // Capture BCC field
-  const [emailsSent, setEmailsSent] = useState(null); // New state for number of emails sent
+  const [cc, setCc] = useState('');
+  const [bcc, setBcc] = useState('');
+  const [attachments, setAttachments] = useState([]);
+  const [emailsSent, setEmailsSent] = useState(null);
   const dialog = useRef();
 
   useEffect(() => {
@@ -23,19 +24,27 @@ function Sendemails() {
         dialogPolyfill.registerDialog(dialog.current);
       }
     }
-  }, []); // Ensure polyfill is applied after the component is mounted
+  }, []);
+
+  const handleFileChange = (e) => {
+    setAttachments(Array.from(e.target.files)); // Store selected files
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Post subject, template, emailField, cc, and bcc to backend
+    const formData = new FormData();
+    formData.append('subject', subject);
+    formData.append('template', template);
+    formData.append('emailField', emailField);
+    formData.append('cc', cc);
+    formData.append('bcc', bcc);
+    attachments.forEach((file) => formData.append('attachments', file)); // Add files to FormData
+
     fetch('http://localhost:3000/sendmailtemplate', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include', // Send cookies for authentication
-      body: JSON.stringify({ subject, template, emailField, cc, bcc }), // Send cc and bcc fields as well
+      credentials: 'include',
+      body: formData, // Send as multipart/form-data
     })
       .then(async (res) => {
         if (!res.ok) {
@@ -45,26 +54,26 @@ function Sendemails() {
         return res.json();
       })
       .then((data) => {
-        setEmailsSent(data.emailsSent); // Store the number of emails sent
+        setEmailsSent(data.emailsSent);
         if (dialog.current) {
           dialog.current.showModal();
         }
-        // Clear form fields after successful submission
         setSubject('');
         setEmailField('');
         setTemplate('');
-        setCc(''); // Clear CC field
-        setBcc(''); // Clear BCC field
+        setCc('');
+        setBcc('');
+        setAttachments([]); // Clear attachments
       })
       .catch((err) => {
-        alert(err.message); // Error message
+        alert(err.message);
       });
   };
 
   return (
     <>
       <Header ishomepage={false} />
-      <EmailssentModal ref={dialog} noofemails={emailsSent} /> {/* Pass emailsSent to modal */}
+      <EmailssentModal ref={dialog} noofemails={emailsSent} />
       <div className={classes.container}>
         <h2 className={classes.title}>Customize Your Email Template</h2>
         {headers && headers.length > 0 ? (
@@ -126,6 +135,28 @@ function Sendemails() {
                   placeholder="Separate multiple emails with commas"
                 />
               </label>
+
+              <label className={classes.formLabel}>
+                Attachments (optional):
+                <input
+                  type="file"
+                  name="attachments"
+                  multiple
+                  onChange={handleFileChange}
+                />
+              </label>
+
+              {attachments.length > 0 && (
+                <div className={classes.fileNames}>
+                  <h4>Selected Attachments:</h4>
+                  <ul>
+                    {attachments.map((file, index) => (
+                      <li key={index}>{file.name}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              
 
               <label className={classes.formLabel}>
                 Email Template (use {`{{field}}`} format):

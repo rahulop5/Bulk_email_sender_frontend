@@ -12,6 +12,8 @@ function Sendemails() {
   const [subject, setSubject] = useState('');
   const [emailField, setEmailField] = useState(''); // Capture email field
   const [template, setTemplate] = useState('');
+  const [cc, setCc] = useState(''); // Capture CC field
+  const [bcc, setBcc] = useState(''); // Capture BCC field
   const [emailsSent, setEmailsSent] = useState(null); // New state for number of emails sent
   const dialog = useRef();
 
@@ -26,14 +28,14 @@ function Sendemails() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Post subject, template, and emailField to backend
+    // Post subject, template, emailField, cc, and bcc to backend
     fetch('http://localhost:3000/sendmailtemplate', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       credentials: 'include', // Send cookies for authentication
-      body: JSON.stringify({ subject, template, emailField }), // Send emailField too
+      body: JSON.stringify({ subject, template, emailField, cc, bcc }), // Send cc and bcc fields as well
     })
       .then(async (res) => {
         if (!res.ok) {
@@ -51,6 +53,8 @@ function Sendemails() {
         setSubject('');
         setEmailField('');
         setTemplate('');
+        setCc(''); // Clear CC field
+        setBcc(''); // Clear BCC field
       })
       .catch((err) => {
         alert(err.message); // Error message
@@ -96,6 +100,30 @@ function Sendemails() {
                   onChange={(e) => setEmailField(e.target.value)}
                   className={classes.inputField}
                   required
+                />
+              </label>
+
+              <label className={classes.formLabel}>
+                Email CC (optional):
+                <input
+                  type="text"
+                  name="cc"
+                  value={cc}
+                  onChange={(e) => setCc(e.target.value)}
+                  className={classes.inputField}
+                  placeholder="Separate multiple emails with commas"
+                />
+              </label>
+
+              <label className={classes.formLabel}>
+                Email BCC (optional):
+                <input
+                  type="text"
+                  name="bcc"
+                  value={bcc}
+                  onChange={(e) => setBcc(e.target.value)}
+                  className={classes.inputField}
+                  placeholder="Separate multiple emails with commas"
                 />
               </label>
 

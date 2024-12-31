@@ -57,7 +57,7 @@ passport.use("google", new GoogleStrategy({
     return done(null, profile);
 }));
 
-async function sendmail(req, res, data, template, subjectTemplate, emailField) {
+async function sendmail(req, res, data, template, subjectTemplate, emailField, cc, bcc) {
     const { token, refreshToken } = req.user;
     let emailCount = 0;
 
@@ -103,6 +103,8 @@ async function sendmail(req, res, data, template, subjectTemplate, emailField) {
                 "MIME-Version: 1.0",
                 "Content-Transfer-Encoding: 7bit",
                 `to: ${recipientEmail}`,  // Use the dynamic email field
+                `cc: ${cc}`,               // Add CC addresses
+                `bcc: ${bcc}`,             // Add BCC addresses
                 `subject: ${personalizedSubject}`,  // Personalized subject
                 "",
                 personalizedMessage,
@@ -188,6 +190,8 @@ app.post("/sendmailtemplate", async (req, res) => {
             const template = req.body.template;
             const subject = req.body.subject;
             const emailField = req.body.emailField;  // The user-selected field for email addresses
+            const cc = req.body.cc;  // CC addresses entered by the user
+            const bcc = req.body.bcc; // BCC addresses entered by the user
 
             // Check if the selected email field exists in the headers
             if (!headers.includes(emailField)) {
@@ -204,8 +208,8 @@ app.post("/sendmailtemplate", async (req, res) => {
                 return res.status(400).send(`Invalid fields: ${invalidFields.join(', ')}`);
             }
 
-            // Pass the emailField to the sendmail function to use it for fetching email addresses
-            const emailsSent = await sendmail(req, res, results, template, subject, emailField);
+            // Pass the emailField, cc, and bcc to the sendmail function
+            const emailsSent = await sendmail(req, res, results, template, subject, emailField, cc, bcc);
             res.status(200).json({ message: "Emails sent successfully!", emailsSent });
 
         } catch (error) {

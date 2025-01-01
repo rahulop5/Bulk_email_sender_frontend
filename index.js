@@ -52,6 +52,20 @@ passport.use("google", new GoogleStrategy({
     return done(null, profile);
 }));
 
+function clearAttachmentsFolder() {
+    const directory = './attachments/';
+
+    fs.readdir(directory, (err, files) => {
+        if (err) throw err;
+
+        for (const file of files) {
+            fs.unlink(path.join(directory, file), err => {
+                if (err) throw err;
+            });
+        }
+    });
+}
+
 async function sendmail(req, res, data, template, subjectTemplate, emailField, cc, bcc, attachments) {
     const { token, refreshToken } = req.user;
     let emailCount = 0;
@@ -150,6 +164,8 @@ async function sendmail(req, res, data, template, subjectTemplate, emailField, c
             emailCount++;
             console.log(`Mail sent to ${recipientEmail}`);
         }
+
+        clearAttachmentsFolder();
 
         return emailCount;
 

@@ -28,7 +28,7 @@ function HomepageFeatures() {
   }, []);
 
   return (
-    <section className={classes.featuresSection}>
+    <section className={classes.featuresSection} id="features">
       <h2 className={classes.heading}>Unlock the Full Potential of Email Marketing</h2>
 
       <div className={classes.features}>

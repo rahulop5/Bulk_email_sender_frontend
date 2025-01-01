@@ -28,7 +28,7 @@ function HomepageHIW() {
   }, []);
 
   return (
-    <section className={classes.hiwSection}>
+    <section className={classes.hiwSection} id="how-it-works">
       <h2 className={classes.heading}>How It Works</h2>
 
       <div

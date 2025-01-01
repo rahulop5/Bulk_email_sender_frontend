@@ -11,6 +11,9 @@ function HomepageFooter() {
             <button className={classes.getStartedButton} onClick={handleGoogleLogin}>
                 Get Started for Free
             </button>
+            <p className={classes.contactText}>
+                Please contact us <a href="mailto:venkatrahul.v23@iiits.in">venkatrahul.v23@iiits.in</a>
+            </p>
         </footer>
     );
 }

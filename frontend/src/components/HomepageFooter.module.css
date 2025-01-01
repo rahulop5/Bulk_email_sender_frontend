@@ -48,6 +48,21 @@
     }
 }
 
+.contactText {
+    margin-top: 15px;
+    font-size: 1.2rem;
+    color: #555; /* Slightly lighter for contrast */
+}
+
+.contactText a {
+    color: #014791; /* Match the button color */
+    text-decoration: none;
+}
+
+.contactText a:hover {
+    text-decoration: underline;
+}
+
 /* Tablet view */
 @media (max-width: 900px) {
     .footer h2 {

@@ -16,6 +16,7 @@ function Sendemails() {
   const [bcc, setBcc] = useState('');
   const [attachments, setAttachments] = useState([]);
   const [emailsSent, setEmailsSent] = useState(null);
+  const fileInputRef = useRef(null);
   const dialog = useRef();
 
   useEffect(() => {
@@ -138,13 +139,22 @@ function Sendemails() {
 
               <label className={classes.formLabel}>
                 Attachments (optional):
-                <input
-                  type="file"
-                  name="attachments"
-                  multiple
-                  onChange={handleFileChange}
-                />
               </label>
+              <input
+                type="file"
+                name="attachments"
+                multiple
+                onChange={handleFileChange}
+                ref={(input) => (fileInputRef.current = input)} // Reference to the hidden input
+                style={{ display: 'none' }} // Hide the input
+              />
+              <button
+                type="button"
+                className={classes.fileButton}
+                onClick={() => fileInputRef.current.click()} // Trigger file input when clicked
+              >
+                Select Attachments
+              </button>
 
               {attachments.length > 0 && (
                 <div className={classes.fileNames}>
@@ -156,7 +166,7 @@ function Sendemails() {
                   </ul>
                 </div>
               )}
-              
+
 
               <label className={classes.formLabel}>
                 Email Template (use {`{{field}}`} format):

@@ -122,6 +122,26 @@
   font-size: 16px;
 }
 
+.fileButton {
+  background-color: #014791;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  margin-top: 0 ;
+}
+
+.fileButton:hover {
+  background-color: #013366;
+  transform: translateY(-2px);
+}
+
+.fileButton:active {
+  background-color: #012c58;
+}
 
 @media (max-width: 600px) {
   .container {

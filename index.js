@@ -66,7 +66,7 @@ function clearAttachmentsFolder() {
     });
 }
 
-async function sendmail(req, res, data, template, subjectTemplate, emailField, cc, bcc, attachments) {
+async function sendmail(req, res, data, template, subjectTemplate, emailField, attachments) {
     const { token, refreshToken } = req.user;
     let emailCount = 0;
 
@@ -119,8 +119,6 @@ async function sendmail(req, res, data, template, subjectTemplate, emailField, c
                 `Content-Type: multipart/mixed; boundary=${boundary}`,
                 `MIME-Version: 1.0`,
                 `to: ${recipientEmail}`,
-                `cc: ${cc}`,
-                `bcc: ${bcc}`,
                 `subject: ${personalizedSubject}`,
                 ``,
                 `--${boundary}`,
@@ -231,8 +229,6 @@ app.post("/sendmailtemplate", attachmentUpload.array('attachments'), async (req,
             const template = req.body.template;
             const subject = req.body.subject;
             const emailField = req.body.emailField;
-            const cc = req.body.cc;
-            const bcc = req.body.bcc;
 
             if (!headers.includes(emailField)) {
                 return res.status(400).send("Selected email field does not exist in the CSV.");
@@ -253,7 +249,7 @@ app.post("/sendmailtemplate", attachmentUpload.array('attachments'), async (req,
                 mimetype: file.mimetype,
             }));
 
-            const emailsSent = await sendmail(req, res, results, template, subject, emailField, cc, bcc, attachments);
+            const emailsSent = await sendmail(req, res, results, template, subject, emailField, attachments);
             res.status(200).json({ message: "Emails sent successfully!", emailsSent });
 
         } catch (error) {

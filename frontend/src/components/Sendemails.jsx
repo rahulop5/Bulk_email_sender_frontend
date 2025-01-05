@@ -12,8 +12,6 @@ function Sendemails() {
   const [subject, setSubject] = useState('');
   const [emailField, setEmailField] = useState('');
   const [template, setTemplate] = useState('');
-  const [cc, setCc] = useState('');
-  const [bcc, setBcc] = useState('');
   const [attachments, setAttachments] = useState([]);
   const [emailsSent, setEmailsSent] = useState(null);
   const fileInputRef = useRef(null);
@@ -38,8 +36,6 @@ function Sendemails() {
     formData.append('subject', subject);
     formData.append('template', template);
     formData.append('emailField', emailField);
-    formData.append('cc', cc);
-    formData.append('bcc', bcc);
     attachments.forEach((file) => formData.append('attachments', file)); // Add files to FormData
 
     fetch('http://localhost:3000/sendmailtemplate', {
@@ -62,8 +58,6 @@ function Sendemails() {
         setSubject('');
         setEmailField('');
         setTemplate('');
-        setCc('');
-        setBcc('');
         setAttachments([]); // Clear attachments
       })
       .catch((err) => {
@@ -110,30 +104,6 @@ function Sendemails() {
                   onChange={(e) => setEmailField(e.target.value)}
                   className={classes.inputField}
                   required
-                />
-              </label>
-
-              <label className={classes.formLabel}>
-                Email CC (optional):
-                <input
-                  type="text"
-                  name="cc"
-                  value={cc}
-                  onChange={(e) => setCc(e.target.value)}
-                  className={classes.inputField}
-                  placeholder="Separate multiple emails with commas"
-                />
-              </label>
-
-              <label className={classes.formLabel}>
-                Email BCC (optional):
-                <input
-                  type="text"
-                  name="bcc"
-                  value={bcc}
-                  onChange={(e) => setBcc(e.target.value)}
-                  className={classes.inputField}
-                  placeholder="Separate multiple emails with commas"
                 />
               </label>
 

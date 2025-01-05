@@ -70,7 +70,7 @@ function Sendemails() {
       <Header ishomepage={false} />
       <EmailssentModal ref={dialog} noofemails={emailsSent} />
       <div className={classes.container}>
-        <h2 className={classes.title}>Customize Your Email Template</h2>
+        <h2 className={classes.title}>Customize Your Email</h2>
         {headers && headers.length > 0 ? (
           <div>
             <h3 className={classes.subTitle}>Available CSV Fields:</h3>
@@ -85,6 +85,7 @@ function Sendemails() {
             <form className={classes.templateForm} onSubmit={handleSubmit}>
               <label className={classes.formLabel}>
                 Email Subject (use {`{{field}}`} format):
+              </label>
                 <input
                   type="text"
                   name="subject"
@@ -93,10 +94,10 @@ function Sendemails() {
                   className={classes.inputField}
                   required
                 />
-              </label>
 
               <label className={classes.formLabel}>
                 Email header name (CSV field for email address):
+              </label>
                 <input
                   type="text"
                   name="emailField"
@@ -105,26 +106,25 @@ function Sendemails() {
                   className={classes.inputField}
                   required
                 />
-              </label>
 
               <label className={classes.formLabel}>
                 Attachments (optional):
+                <input
+                  type="file"
+                  name="attachments"
+                  multiple
+                  onChange={handleFileChange}
+                  ref={(input) => (fileInputRef.current = input)} // Reference to the hidden input
+                  style={{ display: 'none' }} // Hide the input
+                  />
+                <button
+                  type="button"
+                  className={classes.fileButton}
+                  onClick={() => fileInputRef.current.click()} // Trigger file input when clicked
+                  >
+                  Select Attachments
+                </button>
               </label>
-              <input
-                type="file"
-                name="attachments"
-                multiple
-                onChange={handleFileChange}
-                ref={(input) => (fileInputRef.current = input)} // Reference to the hidden input
-                style={{ display: 'none' }} // Hide the input
-              />
-              <button
-                type="button"
-                className={classes.fileButton}
-                onClick={() => fileInputRef.current.click()} // Trigger file input when clicked
-              >
-                Select Attachments
-              </button>
 
               {attachments.length > 0 && (
                 <div className={classes.fileNames}>
@@ -137,9 +137,9 @@ function Sendemails() {
                 </div>
               )}
 
-
               <label className={classes.formLabel}>
-                Email Template (use {`{{field}}`} format):
+                Email Body (use {`{{field}}`} format):
+              </label>
                 <textarea
                   name="template"
                   rows="10"
@@ -149,7 +149,6 @@ function Sendemails() {
                   placeholder="Write your email template using the above fields, e.g., 'Hello {{name}}, you scored {{marks}} marks.'"
                   required
                 />
-              </label>
 
               <button type="submit" className={classes.submitButton}>
                 Send Emails

@@ -7,7 +7,7 @@ function Header({ishomepage}){
             <div className={classes.navLinks}>
                 <a href="#features">Features</a>
                 <a href="#how-it-works">How it Works</a>
-                <a href="#resources">Contact</a>
+                <a href="mailto:venkatrahul.v23@iiits.in">Contact</a>
             </div>
         </nav>
     );

@@ -65,6 +65,29 @@ function Sendemails() {
       });
   };
 
+  function handleFieldButtonPress(event) {
+    const field = event.target.innerText; // Get the field from the button (e.g., {{name}})
+    
+    // Get the current position of the cursor in the textarea
+    const textarea = document.querySelector('textarea[name="template"]');
+    const startPos = textarea.selectionStart;
+    const endPos = textarea.selectionEnd;
+  
+    // Insert the field at the cursor position
+    const newTemplate =
+      template.substring(0, startPos) + field + template.substring(endPos);
+  
+    // Update the template state with the new value
+    setTemplate(newTemplate);
+  
+    // Move the cursor to the end of the inserted field
+    setTimeout(() => {
+      textarea.selectionStart = textarea.selectionEnd = startPos + field.length;
+      textarea.focus(); // Focus back on the textarea
+    }, 0);
+  }
+  
+
   return (
     <>
       <Header ishomepage={false} />
@@ -76,8 +99,8 @@ function Sendemails() {
             <h3 className={classes.subTitle}>Available CSV Fields:</h3>
             <ul className={classes.fieldsList}>
               {headers.map((header, index) => (
-                <li key={index} className={classes.fieldItem}>
-                  {`{{${header}}}`}
+                <li key={index}>
+                  <button className={classes.fieldItem} onClick={handleFieldButtonPress}>{`{{${header}}}`}</button>
                 </li>
               ))}
             </ul>
